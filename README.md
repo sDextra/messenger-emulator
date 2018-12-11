@@ -12,18 +12,21 @@ Messenger Emulator (Ren'Py)
   
  # Init
 ```
-    message_time = [9,40] # [hours, minutes] # if you don't need time, you can set False
-    in_history = True # add messages to history
-    choice_number = True # default 1. choice1 / 2. choice2 / etc., you can set False
-    click_to_continue = False # if False - live mode messages
+message_time = True # if True - get current time / or [hours, minutes] / or False
+in_history = True # add messages to history
+choice_number = True # default 1. choice1 / 2. choice2 / etc. / or False
+click_to_continue = False # if False - live mode messages
+time_to_send_pm = 2.0 # time to send picture message
+time_to_send_am = 2.0 # time to send audio message
 
-    typewriter = True # if False - you instantly send a message
-    typewriter_speed = 2 # how fast you type
+typewriter = True # if False - you instantly send a message
+typewriter_speed = 2 # how fast you type
 
-    interlocutor = "user_name" # interlocutor's name
-    interlocutor_online = True # interlocutor status
-    interlocutor_typing = True # if False - interlocutor instantly sends a message
-    interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
+interlocutor = "user_name" # interlocutor's name
+interlocutor_online = True # interlocutor status
+interlocutor_typing = True # if False - interlocutor instantly sends a message
+interlocutor_extra_time = 2.0 # extra writing time
+interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
 
 ```
 
