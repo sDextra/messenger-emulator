@@ -18,6 +18,7 @@ choice_number = True # default 1. choice1 / 2. choice2 / etc. / or False
 click_to_continue = False # if False - live mode messages
 time_to_send_pm = 2.0 # time to send picture message
 time_to_send_am = 2.0 # time to send audio message
+under_messenger = True # set False if you don't need a darker background under messenger
 
 typewriter = True # if False - you instantly send a message
 typewriter_speed = 2 # how fast you type
