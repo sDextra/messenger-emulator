@@ -1,6 +1,8 @@
 # messenger-emulator
 Messenger Emulator (Ren'Py)
 
+![screenshot](https://pp.userapi.com/c846217/v846217608/14d861/F7TXLG_eOpk.jpg)
+
 # Features
   1. Sending a Text Message
   2. Sending a Picture Message (Click open to full screen)
@@ -9,7 +11,7 @@ Messenger Emulator (Ren'Py)
   5. Message Search (Magnifier Icon)
   6. In Search '#pic' - show all Picture Messages
   7. In Search '#sound' - show all Sound Messages
-  
+
  # Init
 ```
 message_time = True # if True - get current time / or [hours, minutes] / or False
