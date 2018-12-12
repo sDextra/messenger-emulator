@@ -43,7 +43,7 @@ interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
 # Usage
 ```
 # Functions
-msg ("text") # Send a message
+msg ("text") # send a message
 show_messenger() # show screen messenger
 hide_messenger() # hide screen messenger
 del_last_msg() # delete the last message
@@ -52,19 +52,18 @@ del_all_msg() # delete all messages
 find('text') # return a list of messages with 'text'
 
 # Function Arguments 'msg'
-who = 0 # if 0 - you, if 1 - interlocutor
-audio = 'audio_name' # sends an audio message
+who = 1 # 0 - you / 1 - your interlocutor
 pic = 'pic_name' # sends a picture
-choices = { id:{'jump':'lb1', 'name':'text1'}, id:{'jump':'lb2', 'name':'text2'} } # make a choicee
+audio = 'audio_name' # sends an audio message
+choices = { id:{'jump':'lb1', 'name':'text1'}, id:{'jump':'lb2', 'name':'text2'} } # make a choice
 status = 'online' / 'offline' # interlocutor status 
 
 # Examples
-msg ("Hi.") # Text Message from you
-msg ("What's up", who=1) # Text Message from interlocutor
-msg (None, pic='raven') # Picutre Message
-msg (None, audio='opening', who=1) # Audio Message
+msg ("Hi.") # text message from you
+msg ("What's up", who=1) # text message from the interlocutor
+msg (None, pic='raven') # picture message
+msg (None, audio='opening', who=1) # audio message
 msg (None, choices={0:{'jump':'park', 'name':"Go to the park"}, 1:{'jump':'movie', 'name':"Go to the movies"}})
-
 ```
 
 # License
