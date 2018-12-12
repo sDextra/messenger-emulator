@@ -1,6 +1,4 @@
-# messenger-emulator
-Messenger Emulator (for Ren'Py).
- 
+# Messenger Emulator (Ren'Py)
 Already contains an example of dialogue.
 
 ![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
