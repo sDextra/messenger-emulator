@@ -12,6 +12,8 @@ Messenger Emulator (Ren'Py)
   6. In Search '#pic' - show all Picture Messages
   7. In Search '#sound' - show all Sound Messages
 
+The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
+
  # Init
 ```
 message_time = True # if True - get current time / or [hours, minutes] / or False
@@ -32,6 +34,9 @@ interlocutor_extra_time = 2.0 # extra writing time
 interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
 
 ```
+
+# Installation
+Add files to folder ```your_renpy_project/game```
 
 # License
 [MIT](https://github.com/sDextra/messenger-emulator/blob/master/LICENSE/).
