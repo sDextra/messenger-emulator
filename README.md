@@ -42,7 +42,7 @@ interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
 
 # Usage
 ```
-# Functions:
+# Functions
 msg ("text") # Send a message
 show_messenger() # show screen messenger
 hide_messenger() # hide screen messenger
@@ -51,7 +51,7 @@ del_previous_msg() # delete all messages except last
 del_all_msg() # delete all messages
 find('text') # return a list of messages with 'text'
 
-# Function Arguments 'msg':
+# Function Arguments 'msg'
 who = 0 # if 0 - you, if 1 - interlocutor
 audio = 'audio_name' # sends an audio message
 pic = 'pic_name' # sends a picture
