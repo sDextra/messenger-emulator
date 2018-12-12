@@ -10,7 +10,7 @@ Already contains an example of dialogue.
   - Sending a Picture Message (Click open to full screen);
   - Sending an Audio Message (Audio Player);
   - Typewriter Mode (typing emulation);
-  - Make Choices (inside a bubble with a message);
+  - Make Choices (inside the message bubble);
   - Message Search (Magnifier Icon);
   - In Search '#pic' - show all Picture Messages;
   - In Search '#audio' - show all Audio Messages.
