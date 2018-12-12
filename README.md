@@ -8,7 +8,7 @@ Already contains an example of dialogue.
 # Features
   1. Sending a Text Message;
   2. Sending a Picture Message (Click open to full screen);
-  3. Sending a Audio Message (Audio Player);
+  3. Sending an Audio Message (Audio Player);
   4. Typewriter Mode (typing emulation);
   5. Message Search (Magnifier Icon);
   6. In Search '#pic' - show all Picture Messages;
