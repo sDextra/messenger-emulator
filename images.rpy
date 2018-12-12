@@ -10,8 +10,8 @@ init -1000 python:
     style_button_back = '#282E33' 
     style_button_hovr = '#5F6C77'
     style_button_inst = '#14171A'
-    style_font = 'gui/tahoma.ttf'
-    style_font_monospace = 'gui/hack.ttf'
+    style_font = 'fonts/tahoma.ttf'
+    style_font_monospace = 'fonts/hack.ttf'
 
 init python:
     # Button Style
