@@ -1,7 +1,7 @@
 # messenger-emulator
 Messenger Emulator (Ren'Py)
 
-![screenshot](https://pp.userapi.com/c846217/v846217608/14d861/F7TXLG_eOpk.jpg)
+![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
 
 # Features
   1. Sending a Text Message
