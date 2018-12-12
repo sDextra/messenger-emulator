@@ -55,7 +55,7 @@ find('text') # return a list of messages with 'text'
 who = 0 # if 0 - you, if 1 - interlocutor
 audio = 'audio_name' # sends an audio message
 pic = 'pic_name' # sends a picture
-choices = { id:{'jump':'label_name', 'name':'text'}, id:{'jump':'label_name', 'name':'text'} }
+choices = { id:{'jump':'lb1', 'name':'text1'}, id:{'jump':'lb2', 'name':'text2'} } # make a choicee
 status = 'online' / 'offline' # interlocutor status 
 
 # Examples
