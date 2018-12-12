@@ -3,7 +3,7 @@ Already contains an example of dialogue.
 
 ![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
 
-# Features
+## Features
   - Sending a Text Message;
   - Sending a Picture Message (Click open to full screen);
   - Sending an Audio Message (Audio Player);
@@ -15,10 +15,10 @@ Already contains an example of dialogue.
 
 The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
 
-# Installation
+## Installation
 Add files to folder ```your_renpy_project/game```
 
- # Init
+## Init
 ```
 message_time = True # if True - get current time / or [hours, minutes] / or False
 in_history = True # add messages to history
@@ -38,7 +38,7 @@ interlocutor_extra_time = 2.0 # extra writing time
 interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
 ```
 
-# Usage
+## Usage
 ```
 # Functions
 msg ("text") # send a message
@@ -64,5 +64,5 @@ msg (None, audio='opening', who=1) # audio message
 msg (None, choices={0:{'jump':'park', 'name':"Go to the park"}, 1:{'jump':'movie', 'name':"Go to the movies"}})
 ```
 
-# License
+## License
 [MIT](https://github.com/sDextra/messenger-emulator/blob/master/LICENSE/).
