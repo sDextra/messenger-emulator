@@ -17,7 +17,8 @@ The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)
 
 ## Installation
 Add files to folder ```your_renpy_project/game```
-If you already have GUI, no need to replace it
+
+If you already have GUI, no need to replace it.
 
 ## Init
 ```
