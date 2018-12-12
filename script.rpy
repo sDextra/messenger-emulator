@@ -98,7 +98,7 @@ label park:
         msg ("Maybe go to the park?")
         msg ("I am not in the mood for this, [name].", who=1)
         msg ("Okay, next time.")
-        msg ("i love {i}poems{/i}.", who=1)
+        msg ("I love {i}poems{/i}.", who=1)
 
         msg ("Once upon a midnight dreary, while I pondered, weak and weary,\nOver many a quaint and curious volume of forgotten lore —", who=1)
         msg ("While I nodded, nearly napping, suddenly there came a tapping,\nAs of some one gently rapping, rapping at my chamber door —", who=1)
