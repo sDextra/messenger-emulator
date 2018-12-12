@@ -210,9 +210,6 @@ init python:
                 minutes += m
             store.message_time = [hours, minutes]
 
-    def unpause():
-        renpy.pause(.1)
-
     # Delete the last message
     def del_last_msg():
         if len(store.messages) > 0:
