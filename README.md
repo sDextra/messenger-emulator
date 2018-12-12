@@ -1,20 +1,20 @@
 # messenger-emulator
-Messenger Emulator (for Ren'Py)
+Messenger Emulator (for Ren'Py).
  
-Already contains an example of dialogue
+Already contains an example of dialogue.
 
 ![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
 
 # Features
-  1. Sending a Text Message
-  2. Sending a Picture Message (Click open to full screen)
-  3. Sending a Audio Message (Audio Player)
-  4. Typewriter Mode (typing emulation)
-  5. Message Search (Magnifier Icon)
-  6. In Search '#pic' - show all Picture Messages
-  7. In Search '#audio' - show all Audio Messages
+  1. Sending a Text Message;
+  2. Sending a Picture Message (Click open to full screen);
+  3. Sending a Audio Message (Audio Player);
+  4. Typewriter Mode (typing emulation);
+  5. Message Search (Magnifier Icon);
+  6. In Search '#pic' - show all Picture Messages;
+  7. In Search '#audio' - show all Audio Messages.
 
-The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
+The project uses the Python module'[mutagen](https://pypi.org/project/mutagen/)'
 
 
  # Init
