@@ -14,7 +14,7 @@ Already contains an example of dialogue.
   6. In Search '#pic' - show all Picture Messages;
   7. In Search '#audio' - show all Audio Messages.
 
-The project uses the Python module'[mutagen](https://pypi.org/project/mutagen/)'
+The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
 
 
  # Init
