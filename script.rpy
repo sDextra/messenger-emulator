@@ -90,7 +90,7 @@ label dialogue:
     $ park = False
     $ movie = False 
     
-    $ msg ("", choices={0:{'jump':'park', 'name':"Maybe go to the park?"}, 1:{'jump':'movie', 'name':"We could go to the movies."}})
+    $ msg (None, choices={0:{'jump':'park', 'name':"Maybe go to the park?"}, 1:{'jump':'movie', 'name':"We could go to the movies."}})
 
 label park:
     python:
