@@ -1,5 +1,7 @@
 # messenger-emulator
-Messenger Emulator (Ren'Py)
+Messenger Emulator (for Ren'Py)
+ 
+Already contains an example of dialogue
 
 ![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
 
@@ -13,6 +15,7 @@ Messenger Emulator (Ren'Py)
   7. In Search '#sound' - show all Sound Messages
 
 The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
+
 
  # Init
 ```
