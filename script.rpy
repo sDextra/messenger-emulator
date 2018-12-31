@@ -46,13 +46,50 @@ label start:
     $ typewriter = True # if False - you instantly send a message
     $ typewriter_speed = 2 # how fast you type
 
-    $ interlocutor = "sDextra" # interlocutor's name
+    $ interlocutor_name = "sDextra" # interlocutor's name
     $ interlocutor_online = True # interlocutor status
     $ interlocutor_typing = True # if False - interlocutor instantly sends a message
     $ interlocutor_extra_time = 2.0 # extra writing time
     $ interlocutor_typing_speed = 0.05 # default speed 0.1 * number of letters
 
+    $ groupchat_enable = True
+    $ groupchat = GroupChat(name='Chat') # Group Chat Name
+    $ groupchat.add( Interlocutor(ID=1, name='Taeffeine', color='#fff68f') ) # Interlocutor 1 
+    $ groupchat.add( Interlocutor(ID=2, name='sDextra', color='#b73b87') ) # Interlocutor 2
+    $ groupchat.add( Interlocutor(ID=3, name='Dexy', color='#009999') ) # Interlocutor 3
+    $ groupchat.add( Interlocutor(ID=4, name='Poe', color='#d6ff60') ) # Interlocutor 4
+    $ active_groupchat = groupchat # Set Active Group Chat
+
     $ name = renpy.input(u"Who Am I?", length=25).title() # your name
+    jump groupchat_or_dialogue
+
+
+label groupchat_or_dialogue:
+    menu:
+        "Group Chat":
+            $ groupchat_enable = True
+            jump lb_groupchat
+        "Dialogue":
+            $ groupchat_enable = False
+            jump dialogue
+
+label lb_groupchat:
+    "*This dialogue is an example of the work of the {a=https://github.com/sDextra/messenger-emulator}\"Messenger\"{/a}"
+    scene bg club with dissolve
+    $ show_messenger()
+    $ msg (None, audio="opening", who=1)
+    $ msg ("What's up?", who=1)
+    $ msg ("What's up?", who=2)
+    $ msg (None, pic="crow", who=2)
+    $ msg ("What's up?", who=3)
+    $ msg (None, pic="raven", who=4)
+    $ msg ("«This some visiter», I muttered, «tapping at my chamber door —\nOnly this and nothing more.»", who=4)
+    $ msg ("It's cool.")
+    pause
+    $ hide_messenger()
+    $ del_all_msg()
+    jump groupchat_or_dialogue
+
 
 label dialogue:
     "*This dialogue is an example of the work of the {a=https://github.com/sDextra/messenger-emulator}\"Messenger\"{/a}"
@@ -170,7 +207,7 @@ label restart:
         "0.3":
             $ interlocutor_typing_speed = 0.3
     $ del_all_msg()
-    jump dialogue
+    jump groupchat_or_dialogue
 
 #################################################################################
 # by sDextra 

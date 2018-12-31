@@ -39,6 +39,8 @@ init python:
     style.txt_time = Style(style.txt_base)
     style.txt_time.align = (1.0,.98)
     style.txt_time.xanchor = 1.0
+    style.txt_time_gc = Style(style.txt_time)
+    style.txt_time_gc.xpos = 40
     # Status Style
     style.txt_status = Style(style.txt_base)
     style.txt_status.size = 24
@@ -85,6 +87,24 @@ init:
             easein .5 alpha 1
         on hide:
             easeout .5 alpha 0
+image empty = '#00000000'
+
+image status_typing_groupchat:
+    Text(active_groupchat.get_interlocutor(groupchat_who_typing).name+' typing.  ', style='txt_status')
+    pause 0.2
+    Text(active_groupchat.get_interlocutor(groupchat_who_typing).name+' typing.. ', style='txt_status')
+    pause 0.2
+    Text(active_groupchat.get_interlocutor(groupchat_who_typing).name+' typing...', style='txt_status')
+    pause 0.2
+    Text(active_groupchat.get_interlocutor(groupchat_who_typing).name+' typing.. ', style='txt_status')
+    pause 0.2
+    repeat
+
+image status_picture_groupchat:
+    Text(active_groupchat.get_interlocutor(groupchat_who_typing).name+' sends a picture', style='txt_status')
+image status_audio_groupchat:
+    Text(active_groupchat.get_interlocutor(groupchat_who_typing).name+' sends an audio', style='txt_status')
+
 
 image status_online:
     Text('online', style='txt_status')

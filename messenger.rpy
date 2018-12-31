@@ -26,13 +26,18 @@ init python:
     typewriter_speed = 1
     typewriter_counter = 0
 
-    interlocutor = "sDextra"
+    interlocutor_name = "sDextra"
     interlocutor_online = True
     interlocutor_typing = True
     interlocutor_extra_time = 1
     interlocutor_typing_speed = 0.1
     interlocutor_typing_show = False
     interlocutor_sends = False
+
+    groupchat = False
+    groupchat_enable = False
+    groupchat_who_typing = False
+    active_groupchat = False
 
     audio_path = 'sfx/'
     audio_extension = '.mp3'
@@ -45,6 +50,34 @@ init python:
         renpy.hide_screen('messenger')
         renpy.pause(1.0, hard=True)
         _window_show()
+
+    class GroupChat():
+        def __init__(self, name='Chat Name'):
+            self.name = name
+            self.avatar = 'messenger/av/'+name.lower().replace(' ', '_')+'.png'
+            self.members = 0
+            self.list = []
+        def add(self, interlocutor):
+            self.list.append(interlocutor)
+            self.members += 1
+        def remove(self, name):
+            for interlocutor in self.list:
+                if interlocutor.name == name:
+                    self.list.remove(interlocutor)
+                    self.members -= 1
+                    return
+        def get_interlocutor(self, ID):
+            for interlocutor in self.list:
+                if interlocutor.id == ID:
+                    return interlocutor
+            return False
+
+    class Interlocutor():
+        def __init__(self, ID=1, name='Name', color='#fff'):
+            self.id = ID
+            self.name = name
+            self.color = color
+            self.avatar ='messenger/groupchat/'+name.lower().replace(' ', '_')+'.png'
 
     from mutagen.mp3 import MP3
     class Audio():
@@ -120,19 +153,23 @@ init python:
             store.interlocutor_online = True if status == 'online' else interlocutor_online
 
         if who and what and interlocutor_typing:
+            store.groupchat_who_typing = who
             store.interlocutor_typing_show = True
             renpy.pause(interlocutor_extra_time, hard=True)
             speed = len(what) * interlocutor_typing_speed
             renpy.pause(speed, hard=True)
             store.interlocutor_typing_show = False
+            store.groupchat_who_typing = False
 
         if pic or audio:
             sends = 'status_picture' if pic else 'status_audio'
             time = time_to_send_pm if pic else time_to_send_am
             if who:
+                store.groupchat_who_typing = who
                 store.interlocutor_sends = sends
                 renpy.pause(time, hard=True)
                 store.interlocutor_sends = False
+                store.groupchat_who_typing = False
             else:
                 renpy.pause(time, hard=True)
 
@@ -161,6 +198,11 @@ init python:
         if choices:
             freeze()
 
+    def get_previous_msg(all_msg, message):
+        i = all_msg.index(message)+1
+        if i >= 0 and i <= len(all_msg)-1:
+            return all_msg[i]
+        return False
 
     def find(what):
         temp = []
@@ -193,7 +235,10 @@ init python:
 
     # Add message to history
     def add_history(who, what):
-        who = store.interlocutor if who == 1 else store.name
+        if groupchat_enable and active_groupchat:
+            who = active_groupchat.get_interlocutor(who).name if who != 0 else store.name
+        else:
+            who = store.interlocutor_name if who != 0 else store.name
         if what:
             store.narrator.add_history(kind='adv', who=who, what=what)
     
@@ -260,9 +305,13 @@ screen messenger():
     default find_enable = False
     key 'anykey' action NullAction()
     
-    # Interlocutor's Avatar
     frame background None xysize (600,975) at move_messenger:
-        add 'messenger/av/'+interlocutor.lower().replace(' ', '_')+'.png' pos (67,25)
+        # Chat Icon
+        if groupchat_enable and active_groupchat:
+            add active_groupchat.avatar pos (67,25)
+        # Interlocutor's Avatar
+        else:
+            add 'messenger/av/'+interlocutor_name.lower().replace(' ', '_')+'.png' pos (67,25)
         add 'messenger_background' pos (-6,-6)
         frame background None xysize (560, 810) align (0.5,0.58):
             viewport id 'vp_msg' mousewheel True  yadjustment yadj:
@@ -274,6 +323,11 @@ screen messenger():
                         $ can_type = you and typewriter and message == messages[-1] and not complete_message and not interlocutor_typing_show
                         $ box = 'box_one' if you else 'box_two'
                         $ box_hover = 'hover_box' if you else 'hover_box_two'
+                        $ previous_message = get_previous_msg(all_messages, message)
+                        $ interlocutor = active_groupchat.get_interlocutor(message.who) if groupchat_enable and not you else False
+                        if interlocutor and previous_message:
+                            $ interlocutor = False if previous_message.who == interlocutor.id else interlocutor
+                        $ avatar_xoffset = not interlocutor and groupchat_enable
                         if message.audio: # Audio
                             default played = False
                             default audio_sec = 0
@@ -283,24 +337,44 @@ screen messenger():
                             $ audio_idle = 'stop_idle' if now_play else 'play_idle'
                             $ audio_hover = 'stop_hover' if now_play else 'play_hover'
                             $ xoffset = 1.08 if you and played and now_play else 0 # because of the viewport bug~
-                            frame background Frame(box, 25, 25) xalign message.position xysize 360,95:
-                                hbox spacing -250 xalign message.position-xoffset:
-                                    hbox spacing -50:
-                                        button xysize 343,87 background audio_idle hover_background audio_hover action If (now_play, [Stop('sound')], [SetScreenVariable('played', True), SetScreenVariable('audio_sec', 0), Function(message.audio.play)]):
-                                            text "{k=1.5}%s{/k}"%(message.audio.duration) style 'txt_base' align .26,.9 xanchor 0.0 size 22 color style_gray
-                                        if message_time:
-                                            text "{t}%s{/t}"%(message.time) style 'txt_time'
-                                    if played and now_play:
-                                        timer 0.05 repeat True action SetScreenVariable('audio_sec', audio_sec+0.05), If(audio_sec>=message.audio.length, [SetScreenVariable('audio_sec', 0), SetScreenVariable('played', False)])
-                                    $ bar_xoffset = 140 if played and now_play else 0 # because of the viewport bug~
-                                    bar value StaticValue(current_audio, message.audio.length) yalign .25 xpos bar_xoffset maximum (241, 29) thumb None left_bar message.audio.bar_hover() right_bar message.audio.bar_idle()
+                            hbox spacing 5 xalign message.position:
+                                if interlocutor: # Interlocutor's Avatar
+                                    add interlocutor.avatar size 64,64 ypos 10
+                                elif avatar_xoffset: # Avatar X Offset
+                                    add 'empty' size 64,64
+                                $ ysize = 130 if interlocutor else 95
+                                frame background Frame(box, 25, 25) xalign message.position xysize 360,ysize:
+                                    vbox spacing -30:
+                                        $ gc = '{color=%s}%s\n{/color}'%(interlocutor.color, interlocutor.name) if interlocutor else False
+                                        if gc:
+                                            text gc style 'txt_base' xanchor 0.0 xpos 14 ypos 45                    
+                                        hbox spacing -250 xalign message.position-xoffset:
+                                            hbox spacing -50:
+                                                button xysize 343,87 background audio_idle hover_background audio_hover action If (now_play, [Stop('sound')], [SetScreenVariable('played', True), SetScreenVariable('audio_sec', 0), Function(message.audio.play)]):
+                                                    text "{k=1.5}%s{/k}"%(message.audio.duration) style 'txt_base' align .26,.9 xanchor 0.0 size 22 color style_gray
+                                                if message_time:
+                                                    text "{t}%s{/t}"%(message.time) style 'txt_time'
+                                            if played and now_play:
+                                                timer 0.05 repeat True action SetScreenVariable('audio_sec', audio_sec+0.05), If(audio_sec>=message.audio.length, [SetScreenVariable('audio_sec', 0), SetScreenVariable('played', False)])
+                                            $ bar_xoffset = 140 if played and now_play else 0 # because of the viewport bug~
+                                            bar value StaticValue(current_audio, message.audio.length) yalign .25 xpos bar_xoffset maximum (241, 29) thumb None left_bar message.audio.bar_hover() right_bar message.audio.bar_idle()
                         elif message.pic: # Picture
-                            hbox spacing -60 xalign message.position:
-                                $ bottom = 35 if message_time else 20
-                                button xalign message.position xmaximum 580 xpadding 0 top_padding 20 bottom_padding bottom background Frame(box, 25, 25) hover_background Frame(box_hover, 25,25) action Function(message.pic.open_fullpic):
-                                    add 'messenger/pic/'+message.pic.name+'.jpg' align .5,.5 size message.pic.x, message.pic.y
-                                if message_time:
-                                    text "{t}%s{/t}"%(message.time) style 'txt_time'
+                            hbox spacing 5 xalign message.position:
+                                if interlocutor: # Interlocutor's Avatar
+                                    add interlocutor.avatar size 64,64 ypos 10
+                                elif avatar_xoffset: # Avatar X Offset
+                                    add 'empty' size 64,64
+                                hbox spacing -60 xalign message.position:
+                                    $ gc = '{color=%s}%s\n{/color}'%(interlocutor.color, interlocutor.name) if interlocutor else False
+                                    $ bottom = 35 if message_time else 20
+                                    $ top = 50 if interlocutor else 20
+                                    button xalign message.position xmaximum 580 xpadding 0 top_padding top bottom_padding bottom background Frame(box, 25, 25) hover_background Frame(box_hover, 25,25) action Function(message.pic.open_fullpic):
+                                        add 'messenger/pic/'+message.pic.name+'.jpg' align .5,.5 size message.pic.x, message.pic.y
+                                    if message_time:
+                                        text "{t}%s{/t}"%(message.time) style 'txt_time'
+                                    if gc:
+                                        text gc style 'txt_base' xanchor 0.0 xpos -265 ypos 45
+
                         elif message.choices: # Menu
                             frame xalign message.position xmaximum 580 xpadding 20 ypadding 10 background Frame(box, 25, 25):
                                 vbox:
@@ -321,20 +395,34 @@ screen messenger():
                                 $ hm = "" # do not show time in last message
                                 $ txt = message.what[:typewriter_counter]
                             $ bottom = 30 if message_time else 15
-                            hbox spacing -60 xalign message.position:
-                                button xalign message.position xmaximum 500 xpadding 20 top_padding 15 bottom_padding bottom background Frame(box, 25, 25):
-                                    text "%s"%(txt) style 'txt_base'
-                                if message_time:
-                                    text "{t}%s{/t}"%(hm) style 'txt_time'
-                                if can_type:
-                                    key 'dismiss' action NullAction() # Block skip
-                                    key 'anykey' action SetVariable('typewriter_counter', typewriter_counter+typewriter_speed)
-        # input_find
+                            $ gc = '{color=%s}%s\n{/color}'%(interlocutor.color, interlocutor.name) if interlocutor else ''
+                            hbox spacing 5 xalign message.position:
+                                if interlocutor: # Interlocutor's Avatar
+                                    add interlocutor.avatar size 64,64 ypos 10
+                                elif avatar_xoffset: # Avatar X Offset
+                                    add 'empty' size 64,64
+                                hbox spacing -60 xalign message.position:
+                                    button xalign message.position xmaximum 500 xpadding 20 top_padding 15 bottom_padding bottom background Frame(box, 25, 25):
+                                        text "%s%s"%(gc, txt) style 'txt_base'
+                                    if message_time:
+                                        text "{t}%s{/t}"%(hm) style 'txt_time'
+                                    if can_type:
+                                        key 'dismiss' action NullAction() # Block skip
+                                        key 'anykey' action SetVariable('typewriter_counter', typewriter_counter+typewriter_speed)
+    
+        # Chat
+        if groupchat_enable and active_groupchat:
+            $ status = 'status_typing_groupchat' if interlocutor_typing_show else Text('%s members'%(active_groupchat.members), color=style_gray, style='txt_status')
+            if status:
+                $ status = 'status_picture_groupchat' if interlocutor_sends == 'status_picture' else 'status_audio_groupchat' if interlocutor_sends == 'status_audio' else status
+            text "%s"%(active_groupchat.name) style 'txt_base' size 32 xalign 0.25 xanchor 0.0 yalign 0.025
+            add status align 0.25, 0.065 xanchor 0.0
         # Interlocutor's name & status
-        $ status = 'status_typing' if interlocutor_typing_show else 'status_online' if interlocutor_online else 'status_offline'
-        $ status = interlocutor_sends if interlocutor_sends else status
-        text "%s"%(interlocutor) style 'txt_base' size 32 xalign 0.25 xanchor 0.0 yalign 0.025
-        add status align 0.25, 0.065 xanchor 0.0
+        else: 
+            $ status = 'status_typing' if interlocutor_typing_show else 'status_online' if interlocutor_online else 'status_offline'
+            $ status = interlocutor_sends if interlocutor_sends else status
+            text "%s"%(interlocutor_name) style 'txt_base' size 32 xalign 0.25 xanchor 0.0 yalign 0.025
+            add status align 0.25, 0.065 xanchor 0.0
         
         # Arrow
         imagebutton idle 'arrow_idle' hover 'arrow_hover' pos (15, 33) action NullAction()
