@@ -13,6 +13,7 @@ Already contains an example of dialogue.
   - Message Search (Magnifier Icon);
   - In Search '#pic' - show all Picture Messages;
   - In Search '#audio' - show all Audio Messages.
+  - Name Input Function
 
 The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
 
@@ -62,6 +63,7 @@ pic = 'pic_name' # sends a picture
 audio = 'audio_name' # sends an audio message
 choices = { id:{'jump':'lb1', 'name':'text1'}, id:{'jump':'lb2', 'name':'text2'} } # make a choice
 status = 'online' / 'offline' # interlocutor status 
+name_input = True # enter your name in the text message
 
 # Examples
 msg ("Hi.") # text message from you
@@ -69,6 +71,7 @@ msg ("What's up", who=1) # text message from the interlocutor
 msg (None, pic='raven') # picture message
 msg (None, audio='opening', who=1) # audio message
 msg (None, choices={0:{'jump':'park', 'name':"Go to the park"}, 1:{'jump':'movie', 'name':"Go to the movies"}})
+msg (None, name_input=True) # enter your name
 ```
 
 ## License
