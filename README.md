@@ -13,6 +13,7 @@ Already contains an example of dialogue.
   - Message Search (Magnifier Icon);
   - In Search '#pic' - show all Picture Messages;
   - In Search '#audio' - show all Audio Messages.
+  - Name Input Function
 
 The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
 
