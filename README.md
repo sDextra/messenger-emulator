@@ -4,6 +4,7 @@ Already contains an example of dialogue.
 ![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
 
 ## Features
+  - Group Chat
   - Sending a Text Message;
   - Sending a Picture Message (Click open to full screen);
   - Sending an Audio Message (Audio Player);
@@ -38,6 +39,10 @@ interlocutor_online = True # interlocutor status
 interlocutor_typing = True # if False - interlocutor instantly sends a message
 interlocutor_extra_time = 2.0 # extra writing time
 interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
+
+groupchat_enable = True # group chat is on
+groupchat = GroupChat(name='Chat') # group chat Name
+active_groupchat = groupchat # set active group chat
 ```
 
 ## Usage
@@ -52,7 +57,7 @@ del_all_msg() # delete all messages
 find('text') # return a list of messages with 'text'
 
 # Function Arguments 'msg'
-who = 1 # 0 - you / 1 - your interlocutor
+who = 0 # 0 - you / 1, 2, ..., etc.  your interlocutor
 pic = 'pic_name' # sends a picture
 audio = 'audio_name' # sends an audio message
 choices = { id:{'jump':'lb1', 'name':'text1'}, id:{'jump':'lb2', 'name':'text2'} } # make a choice
