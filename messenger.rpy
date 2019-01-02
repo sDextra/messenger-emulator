@@ -52,9 +52,9 @@ init python:
         _window_show()
 
     class GroupChat():
-        def __init__(self, name='Chat Name'):
+        def __init__(self, name='Chat Name', avatar=False):
             self.name = name
-            self.avatar = 'messenger/av/'+name.lower().replace(' ', '_')+'.png'
+            self.avatar = avatar if avatar else 'messenger/av/'+name.lower().replace(' ', '_')+'.png'
             self.members = 0
             self.list = []
         def add(self, interlocutor):
@@ -73,11 +73,11 @@ init python:
             return False
 
     class Interlocutor():
-        def __init__(self, ID=1, name='Name', color='#fff'):
+        def __init__(self, ID=1, name='Name', color='#fff', avatar=False):
             self.id = ID
             self.name = name
             self.color = color
-            self.avatar ='messenger/groupchat/'+name.lower().replace(' ', '_')+'.png'
+            self.avatar = avatar if avatar else 'messenger/groupchat/'+name.lower().replace(' ', '_')+'.png' 
 
     from mutagen.mp3 import MP3
     class Audio():
