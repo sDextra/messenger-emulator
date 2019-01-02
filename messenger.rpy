@@ -119,11 +119,13 @@ init python:
 
     from datetime import datetime
     class Message():
-        def __init__(self, what, who, choices, audio, audio_bar, pic, pic_x, time):
+        def __init__(self, what, who, choices, audio, audio_bar, pic, pic_x, name_input, time):
             self.what = what
             self.who = who
             self.time_list = time
             self.choices = choices
+            self.input = name_input
+            self.instantly = True if name_input else False
             self.position = self.find_position(who)
             self.pic = Picture(pic, pic_x) if pic else False
             self.audio = Audio(audio, audio_bar) if audio else False
@@ -148,7 +150,10 @@ init python:
 
 
     # New message
-    def msg(what, who=0, choices=False, pic=False, pic_size=360, audio=False, audio_bar=0, status=False):
+    def msg(what, who=0, name_input=False, choices=False, pic=False, pic_size=360, audio=False, audio_bar=0, status=False):
+        if name_input:
+            skip_stop()
+
         if status:
             store.interlocutor_online = True if status == 'online' else interlocutor_online
 
@@ -173,9 +178,8 @@ init python:
             else:
                 renpy.pause(time, hard=True)
 
-
         time_update()
-        store.messages.append(Message(what, who, choices, audio, audio_bar, pic, pic_size, message_time))
+        store.messages.append(Message(what, who, choices, audio, audio_bar, pic, pic_size, name_input, message_time))
         store.yadj.value = 9999*9999
         store.typewriter_counter = 0
 
@@ -197,6 +201,7 @@ init python:
 
         if choices:
             freeze()
+
 
     def get_previous_msg(all_msg, message):
         i = all_msg.index(message)+1
@@ -232,6 +237,11 @@ init python:
     def find_reset():
         store.input_find = ""
         store.yadj.value = 9999*9999
+
+    input_message = ""
+    def input_change_func(value):
+        store.input_message = value
+        renpy.restart_interaction()
 
     # Add message to history
     def add_history(who, what):
@@ -278,12 +288,24 @@ init python:
         store.interlocutor_online = False
     # Block Skip
     def freeze():
-        renpy.config.skipping = False
-        store._skipping = False
+        skip_stop()
         renpy.pause(9999, hard=True)
     # Unblock Skip
     def unfreeze():
         store._skipping = True
+
+    def skip_stop():
+        renpy.config.skipping = False
+        store._skipping = False
+
+    def set_name(message, name):
+        store.name = name
+        message.what = name
+        message.input = False
+        unfreeze()
+        renpy.restart_interaction()
+    SetName = renpy.curry(set_name)
+        
 
     # Tag for message time
     def time_tag(tag, argument, contents):
@@ -320,7 +342,7 @@ screen messenger():
                     for message in all_messages:
                         $ you = not message.who
                         $ complete_message = typewriter_counter >= len(message.what) if message.what else True
-                        $ can_type = you and typewriter and message == messages[-1] and not complete_message and not interlocutor_typing_show
+                        $ can_type = not message.instantly and you and typewriter and message == messages[-1] and not complete_message and not interlocutor_typing_show
                         $ box = 'box_one' if you else 'box_two'
                         $ box_hover = 'hover_box' if you else 'hover_box_two'
                         $ previous_message = get_previous_msg(all_messages, message)
@@ -388,6 +410,14 @@ screen messenger():
                                             text_size 28 text_font style_font text_xalign 1.0 text_color '#fff'
                                         if choice_number:
                                             key str(k) action Function(die_is_cast, lbl)
+                        elif message.input:
+                            hbox spacing 5 xalign message.position:
+                                hbox spacing -60 xalign message.position:
+                                    frame xalign message.position xmaximum 500 xpadding 20 top_padding 15 bottom_padding bottom background Frame(box, 25, 25):
+                                        input changed input_change_func length 20 style 'txt_base' xalign 1.0
+                                    if message_time:
+                                        text "{t}%s{/t}"%(hm) style 'txt_time'
+                                    key 'K_RETURN' action SetName(message, input_message)
                         else: # Usual message
                             $ hm = message.time
                             $ txt = message.what

@@ -60,7 +60,7 @@ label start:
     $ groupchat.add( Interlocutor(ID=4, name='Poe', color='#d6ff60') ) # Interlocutor 4
     $ active_groupchat = groupchat # Set Active Group Chat
 
-    $ name = renpy.input(u"Who Am I?", length=25).title() # your name
+    $ name = 'Name' #Default name ###renpy.input(u"Who Am I?", length=25).title() # your name
     jump groupchat_or_dialogue
 
 
@@ -97,7 +97,8 @@ label dialogue:
     scene bg club with dissolve
     $ show_messenger()
 
-    $ msg ("Hi. What's up?", who=1, status='offline')
+    $ msg ("Hi. What's your name?", who=1, status='offline')
+    $ msg(None, name_input=True)
 
     $ show_tooltip()
     $ msg ("Hi, nothing much. Are you still here?")
