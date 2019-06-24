@@ -109,17 +109,17 @@ init python:
             return "%s:%s"%(m,s)
 
     class Picture():
-        def __init__(self, name, x):
+        def __init__(self, name, x, y):
             self.name = str(name)
             self.x = x # maximum 580
-            self.y = int(x/display_aspect_ratio)
+            self.y = int(x/display_aspect_ratio) if not y else y
         # Open picture to fulll screen
         def open_fullpic(self):
             renpy.show_screen('sc_fullpic', pic=self.name)
 
     from datetime import datetime
     class Message():
-        def __init__(self, what, who, choices, audio, audio_bar, pic, pic_x, name_input, time):
+        def __init__(self, what, who, choices, audio, audio_bar, pic, pic_x, pic_y, name_input, time):
             self.what = what
             self.who = who
             self.time_list = time
@@ -127,7 +127,7 @@ init python:
             self.input = name_input
             self.instantly = True if name_input else False
             self.position = self.find_position(who)
-            self.pic = Picture(pic, pic_x) if pic else False
+            self.pic = Picture(pic, pic_x, pic_y) if pic else False
             self.audio = Audio(audio, audio_bar) if audio else False
             self.time = self.format_time(time) if type(message_time) != bool else self.get_current_time() if time else False
         
@@ -150,7 +150,7 @@ init python:
 
 
     # New message
-    def msg(what, who=0, name_input=False, choices=False, pic=False, pic_size=360, audio=False, audio_bar=0, status=False):
+    def msg(what, who=0, name_input=False, choices=False, pic=False, pic_x=360, pic_y=False, audio=False, audio_bar=0, status=False):
         if name_input:
             skip_stop()
 
@@ -179,7 +179,7 @@ init python:
                 renpy.pause(time, hard=True)
 
         time_update()
-        store.messages.append(Message(what, who, choices, audio, audio_bar, pic, pic_size, name_input, message_time))
+        store.messages.append(Message(what, who, choices, audio, audio_bar, pic, pic_x, pic_y, name_input, message_time))
         store.yadj.value = 9999*9999
         store.typewriter_counter = 0
 
