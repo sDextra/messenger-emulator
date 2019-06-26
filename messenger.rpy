@@ -111,7 +111,7 @@ init python:
     class Picture():
         def __init__(self, name, x, y):
             self.name = str(name)
-            self.x = x # maximum 580
+            self.x = x
             self.y = int(x/display_aspect_ratio) if not y else y
         # Open picture to fulll screen
         def open_fullpic(self):
@@ -390,7 +390,7 @@ screen messenger():
                                     $ gc = '{color=%s}%s\n{/color}'%(interlocutor.color, interlocutor.name) if interlocutor else False
                                     $ bottom = 35 if message_time else 20
                                     $ top = 50 if interlocutor else 20
-                                    button xalign message.position xmaximum 580 xpadding 0 top_padding top bottom_padding bottom background Frame(box, 25, 25) hover_background Frame(box_hover, 25,25) action Function(message.pic.open_fullpic):
+                                    button xalign message.position xpadding 0 top_padding top bottom_padding bottom background Frame(box, 25, 25) hover_background Frame(box_hover, 25,25) action Function(message.pic.open_fullpic):
                                         add 'messenger/pic/'+message.pic.name+'.jpg' align .5,.5 size message.pic.x, message.pic.y
                                     if message_time:
                                         text "{t}%s{/t}"%(message.time) style 'txt_time'
@@ -398,7 +398,7 @@ screen messenger():
                                         text gc style 'txt_base' xanchor 0.0 xpos -265 ypos 45
 
                         elif message.choices: # Menu
-                            frame xalign message.position xmaximum 580 xpadding 20 ypadding 10 background Frame(box, 25, 25):
+                            frame xalign message.position xpadding 20 ypadding 10 background Frame(box, 25, 25):
                                 vbox:
                                     $ sort = sorted(message.choices.items(), key=lambda x: x)
                                     for k, v in sort:
