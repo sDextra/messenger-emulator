@@ -148,6 +148,8 @@ init python:
             h = '0'+str(h) if h < 10 and h != 0 else str(h)+'0' if h == 0 else h
             return "%s:%s"%(h,m)
 
+    def down():
+        store.yadj.value = 9999*9999
 
     # New message
     def msg(what, who=0, name_input=False, choices=False, pic=False, pic_x=360, pic_y=False, audio=False, audio_bar=0, status=False):
@@ -326,7 +328,7 @@ screen messenger():
         add '#00000090' at blackout
     default find_enable = False
     key 'anykey' action NullAction()
-    
+
     frame background None xysize (600,975) at move_messenger:
         # Chat Icon
         if groupchat_enable and active_groupchat:
@@ -439,7 +441,7 @@ screen messenger():
                                     if can_type:
                                         key 'dismiss' action NullAction() # Block skip
                                         key 'anykey' action SetVariable('typewriter_counter', typewriter_counter+typewriter_speed)
-    
+                        timer 0.001 action Function(down)
         # Chat
         if groupchat_enable and active_groupchat:
             $ status = 'status_typing_groupchat' if interlocutor_typing_show else Text('%s members'%(active_groupchat.members), color=style_gray, style='txt_status')
