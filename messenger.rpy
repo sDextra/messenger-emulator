@@ -78,6 +78,10 @@ init python:
             self.name = name
             self.color = color
             self.avatar = avatar if avatar else 'messenger/groupchat/'+name.lower().replace(' ', '_')+'.png' 
+        def set_avatar(self, new_avatar):
+            self.avatar = new_avatar
+        def set_name(self, new_name):
+            self.name = new_name
 
     from mutagen.mp3 import MP3
     class Audio():
