@@ -9,9 +9,6 @@
 #################################################################################
 init python:
 #################################################################################
-    if persistent.theme is None: 
-        persistent.theme = [1.0, 1.0, 1.0]
-
     display_aspect_ratio = 16.0 / 9.0
     yadj = ui.adjustment()
     
@@ -324,7 +321,6 @@ init python:
             ] + contents + [ 
                 (renpy.TEXT_TAG, u"/size"), (renpy.TEXT_TAG, u"/color"), ]
     config.custom_text_tags["t"] = time_tag
-
 #################################################################################
 
 
@@ -344,8 +340,7 @@ screen messenger():
         # Interlocutor's Avatar
         else:
             add 'messenger/av/'+interlocutor_name.lower().replace(' ', '_')+'.png' pos (67,25)
-        add 'messenger_hud' pos (-6,-6)
-        add 'messenger_back' pos (-6,-6)
+        add 'messenger_background' pos (-6,-6)
         frame background None xysize (560, 810) align (0.5,0.58):
             viewport id 'vp_msg' mousewheel True  yadjustment yadj:
                 vbox spacing 15 xsize 550 xalign 0.4 box_reverse True:
@@ -465,13 +460,14 @@ screen messenger():
             text "%s"%(interlocutor_name) style 'txt_base' size 32 xalign 0.25 xanchor 0.0 yalign 0.025
             add status align 0.25, 0.065 xanchor 0.0
         
-        # Arrow / Clear screen
-        imagebutton idle 'arrow_idle' hover 'arrow_hover' pos (15, 35) action Function(del_previous_msg)
+        # Arrow
+        imagebutton idle 'arrow_idle' hover 'arrow_hover' pos (15, 33) action NullAction()
         # Magnifier 
         $ magnifier_idle = 'magnifier_hover' if find_enable else 'magnifier_idle' 
-        imagebutton idle magnifier_idle hover 'magnifier_hover' pos (475, 35) action If(find_enable, [Function(find_reset), SetScreenVariable('find_enable', False)], SetScreenVariable('find_enable', True))
-        # Other
-        imagebutton idle 'other_idle' hover 'other_hover' pos (533,35) action Show('sc_theme')
+        imagebutton idle magnifier_idle hover 'magnifier_hover' pos (455, 33) action If(find_enable, [Function(find_reset), SetScreenVariable('find_enable', False)], SetScreenVariable('find_enable', True))
+        # Clear screen
+        button background style_button_inst hover_background style_button_hovr xalign 0.99 yalign 0.03 action Function(del_previous_msg) xysize (60,60):
+            text "  x  " style 'txt_base' size 40 pos (36, -2) 
         
         if find_enable:
             input changed find_change_func length 14 align .12,.99 xanchor 0 color style_green
@@ -479,27 +475,6 @@ screen messenger():
 
         # Telegram bar
         vbar value YScrollValue('vp_msg') style 'bar_vert'
-#################################################################################
-
-#################################################################################
-# SCREEN COLOR THEMES
-#################################################################################
-screen sc_theme():
-    modal True
-    frame  xysize (300,500) align .83,.5:
-        label 'COLOR THEME' align .5,.03 text_size 30
-        vbox align .5,.9:
-            textbutton 'default' action Function(set_color_theme, 1.0,1.0,1.0), Hide('sc_theme') # (1.0,1.0,1.0) == RGB (red,green,blue)
-            textbutton 'dark' action Function(set_color_theme, .5,.5,.5), Hide('sc_theme') 
-            textbutton 'light' action Function(set_color_theme, 1.5,1.5,1.5), Hide('sc_theme')
-            textbutton 'red' action Function(set_color_theme, 1.5,.1,.1), Hide('sc_theme')
-            textbutton 'green' action Function(set_color_theme, .5,1,.5), Hide('sc_theme')
-            textbutton 'blue' action Function(set_color_theme, .7,.7,1), Hide('sc_theme')
-            textbutton 'cyan' action Function(set_color_theme, .7,1.0,.7), Hide('sc_theme')
-            null height 20
-            textbutton 'close' action Hide('sc_theme')
-
-
 #################################################################################
 screen sc_fullpic(pic=False):
     modal True zorder 10
