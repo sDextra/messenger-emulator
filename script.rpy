@@ -78,7 +78,6 @@ label lb_groupchat:
     scene bg club with dissolve
     $ show_messenger()
     $ msg (None, audio="opening", who=1)
-    $ msg ("What's up?", who=1)
     $ msg ("What's up?", who=2)
     $ msg (None, pic="crow", who=2)
     $ msg ("What's up?", who=3)
@@ -110,6 +109,7 @@ label dialogue:
     $ show_tooltip(n=2)
     $ msg ("Nothing much. The crow is cool too.")
     $ msg (None, pic="crow")
+    $ msg (None, who=1, pic="coffee", pic_y=371)
 
     $ msg ("What do you think about our opening?")
     $ msg ("It's from the upcoming VN 'd20: Sweet Roll Club'")
