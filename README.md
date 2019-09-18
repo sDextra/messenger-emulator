@@ -2,6 +2,7 @@
 Already contains an example of dialogue.
 
 ![screenshot](https://pp.userapi.com/c849528/v849528789/c7282/fZSuh5rjNAI.jpg)
+![screenshot](https://sun9-45.userapi.com/c855324/v855324784/f620d/0VIvpiVzSCI.jpg)
 
 ## Features
   - Group Chat
@@ -14,6 +15,7 @@ Already contains an example of dialogue.
   - In Search '#pic' - show all Picture Messages;
   - In Search '#audio' - show all Audio Messages.
   - Name Input Function
+  - Custom Color Themes
 
 The project uses the Python module '[mutagen](https://pypi.org/project/mutagen/)'
 
