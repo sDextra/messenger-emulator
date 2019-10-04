@@ -105,8 +105,6 @@ label dialogue:
     pause
     $ switch_dialogue(name='sDextra', dialogue=dialogue_two)
     $ msg ("This is the second dialogue.", who=1)
-    pause
-    $ switch_dialogue(name='sDextra', dialogue=dialogue_one)
     #
     
     $ msg ("Hi. What's your name?", who=1, status='offline')
