@@ -33,7 +33,7 @@ define nm = DynamicCharacter("name") # your character
 label start:
     $ unfreeze()
 
-    $ messages = [] # list of all messages
+    $ messages = [] # list of all messages in the dialogue
 
     $ message_time = True # if True - get current time / or [hours, minutes] / or False
     $ in_history = True # add messages to history
@@ -78,7 +78,6 @@ label lb_groupchat:
     scene bg club with dissolve
     $ show_messenger()
     $ msg (None, audio="opening", who=1)
-    $ msg ("What's up?", who=1)
     $ msg ("What's up?", who=2)
     $ msg (None, pic="crow", who=2)
     $ msg ("What's up?", who=3)
@@ -97,6 +96,19 @@ label dialogue:
     scene bg club with dissolve
     $ show_messenger()
 
+    # NEW DIALOGUE SWITCH SYSTEM
+    $ dialogue_one = [] #Poe
+    $ dialogue_two = [] #sDextra
+
+    $ switch_dialogue(name='Poe', dialogue=dialogue_one)
+    $ msg ("Hi. This is the first dialogue.", who=1)
+    pause
+    $ switch_dialogue(name='sDextra', dialogue=dialogue_two)
+    $ msg ("This is the second dialogue.", who=1)
+    pause
+    $ switch_dialogue(name='sDextra', dialogue=dialogue_one)
+    #
+    
     $ msg ("Hi. What's your name?", who=1, status='offline')
     $ msg(None, name_input=True)
 
@@ -110,6 +122,7 @@ label dialogue:
     $ show_tooltip(n=2)
     $ msg ("Nothing much. The crow is cool too.")
     $ msg (None, pic="crow")
+    $ msg (None, who=1, pic="coffee", pic_y=371)
 
     $ msg ("What do you think about our opening?")
     $ msg ("It's from the upcoming VN 'd20: Sweet Roll Club'")
