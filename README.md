@@ -6,6 +6,7 @@ Already contains an example of dialogue.
 
 ## Features
   - Group Chat
+  - Dialogue Switch System
   - Sending a Text Message;
   - Sending a Picture Message (Click open to full screen);
   - Sending an Audio Message (Audio Player);
@@ -46,6 +47,7 @@ interlocutor_typing_speed = 0.05 # default speed 0.05 * number of letters
 groupchat_enable = True # group chat is on
 groupchat = GroupChat(name='Chat') # group chat Name
 active_groupchat = groupchat # set active group chat
+dialogue_one = [] # creating a new dialogue, any number of dialogs can be created
 ```
 
 ## Usage
@@ -58,6 +60,7 @@ del_last_msg() # delete the last message
 del_previous_msg() # delete all messages except last
 del_all_msg() # delete all messages
 find('text') # return a list of messages with 'text'
+switch_dialogue(name='AnyName', dialogue=dialogue_list) # switching active dialogue
 
 # Function Arguments 'msg'
 who = 0 # 0 - you / 1, 2, ..., etc.  your interlocutor
@@ -68,6 +71,7 @@ status = 'online' / 'offline' # interlocutor status
 name_input = True # enter your name in the text message
 
 # Examples
+switch_dialogue(name='sDextra', dialogue=dialogue_one)
 msg ("Hi.") # text message from you
 msg ("What's up", who=1) # text message from the interlocutor
 msg (None, pic='raven') # picture message
