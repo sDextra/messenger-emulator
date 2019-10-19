@@ -57,7 +57,7 @@ init python:
     class GroupChat():
         def __init__(self, name='Chat Name', avatar=False):
             self.name = name
-            self.avatar = avatar if avatar else 'messenger/av/'+name.lower().replace(' ', '_')+'.png'
+            self.avatar = avatar if avatar else 'images/messenger/av/'+name.lower().replace(' ', '_')+'.png'
             self.members = 0
             self.list = []
         def add(self, interlocutor):
@@ -80,7 +80,7 @@ init python:
             self.id = ID
             self.name = name
             self.color = color
-            self.avatar = avatar if avatar else 'messenger/groupchat/'+name.lower().replace(' ', '_')+'.png' 
+            self.avatar = avatar if avatar else 'images/messenger/groupchat/'+name.lower().replace(' ', '_')+'.png' 
         def set_avatar(self, new_avatar):
             self.avatar = new_avatar
         def set_name(self, new_name):
@@ -104,9 +104,9 @@ init python:
         def play(self):
             renpy.play(self.name, channel='sound')
         def bar_idle(self):
-            return 'messenger/audio/bar_'+str(self.bar)+'.png'
+            return 'images/messenger/audio/bar_'+str(self.bar)+'.png'
         def bar_hover(self):
-            return color_brightness('messenger/audio/bar_'+str(self.bar)+'.png')
+            return color_brightness('images/messenger/audio/bar_'+str(self.bar)+'.png')
         # Audio's minutes and seconds
         def get_duration(self, d):
             m = d // 60
@@ -210,7 +210,7 @@ init python:
 
         if choices:
             freeze()
-
+    
     # NEW DIALOGUE SWITCH SYSTEM
     def switch_dialogue(name='sDextra', dialogue=store.messages):
         store.interlocutor_name = name
@@ -347,7 +347,7 @@ screen messenger():
             add active_groupchat.avatar pos (67,25)
         # Interlocutor's Avatar
         else:
-            add 'messenger/av/'+interlocutor_name.lower().replace(' ', '_')+'.png' pos (67,25)
+            add 'images/messenger/av/'+interlocutor_name.lower().replace(' ', '_')+'.png' pos (67,25)
         add 'messenger_hud' pos (-6,-6)
         add 'messenger_back' pos (-6,-6)
         frame background None xysize (560, 810) align (0.5,0.58):
@@ -406,7 +406,7 @@ screen messenger():
                                     $ bottom = 35 if message_time else 20
                                     $ top = 50 if interlocutor else 20
                                     button xalign message.position xpadding 0 top_padding top bottom_padding bottom background Frame(box, 25, 25) hover_background Frame(box_hover, 25,25) action Function(message.pic.open_fullpic):
-                                        add 'messenger/pic/'+message.pic.name+'.jpg' align .5,.5 size message.pic.x, message.pic.y
+                                        add 'images/messenger/pic/'+message.pic.name+'.jpg' align .5,.5 size message.pic.x, message.pic.y
                                     if message_time:
                                         text "{t}%s{/t}"%(message.time) style 'txt_time'
                                     if gc:
@@ -466,7 +466,7 @@ screen messenger():
         else: 
             $ status = 'status_typing' if interlocutor_typing_show else 'status_online' if interlocutor_online else 'status_offline'
             $ status = interlocutor_sends if interlocutor_sends else status
-            text "%s"%(interlocutor_name) style 'txt_base' size 32 xalign 0.25 xanchor 0.0 yalign 0.025
+            text "%s"%(interlocutor_name) style 'txt_base' color interlocutor_name_color size 32 xalign 0.25 xanchor 0.0 yalign 0.025
             add status align 0.25, 0.065 xanchor 0.0
         
         # Arrow / Clear screen
@@ -508,7 +508,7 @@ screen sc_theme():
 screen sc_fullpic(pic=False):
     modal True zorder 10
     add '#00000090' at blackout
-    add 'messenger/pic/'+pic+'.jpg' at move_pic
+    add 'images/messenger/pic/'+pic+'.jpg' at move_pic
     button background None action Hide('sc_fullpic')
 #################################################################################
 

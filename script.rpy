@@ -47,6 +47,7 @@ label start:
     $ typewriter_speed = 2 # how fast you type
 
     $ interlocutor_name = "sDextra" # interlocutor's name
+    $ interlocutor_name_color = '#c4c4c4' # interlocutor's name color
     $ interlocutor_online = True # interlocutor status
     $ interlocutor_typing = True # if False - interlocutor instantly sends a message
     $ interlocutor_extra_time = 2.0 # extra writing time
@@ -97,14 +98,16 @@ label dialogue:
     $ show_messenger()
 
     # NEW DIALOGUE SWITCH SYSTEM
-    $ dialogue_one = [] #Poe
-    $ dialogue_two = [] #sDextra
+    $ dialogue_one = [] #sDextra
+    $ dialogue_two = [] #Poe
 
-    $ switch_dialogue(name='Poe', dialogue=dialogue_one)
+    $ switch_dialogue(name='sDextra', dialogue=dialogue_one)
     $ msg ("Hi. This is the first dialogue.", who=1)
     pause
-    $ switch_dialogue(name='sDextra', dialogue=dialogue_two)
+    $ switch_dialogue(name='Poe', dialogue=dialogue_two)
     $ msg ("This is the second dialogue.", who=1)
+    pause
+    $ switch_dialogue(name='sDextra', dialogue=dialogue_one)
     #
     
     $ msg ("Hi. What's your name?", who=1, status='offline')

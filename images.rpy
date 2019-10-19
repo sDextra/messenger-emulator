@@ -125,23 +125,74 @@ image status_typing:
 image status_offline:
     Text('last seen recently', style='txt_status', color='#6d7b85')
 
-image messenger_background = 'messenger/back.png'
 
-image arrow_idle = 'images/messenger/arrow.png'
-image arrow_hover = color_brightness('images/messenger/arrow.png')
+init python:
+    # HUD
+    def dn_hud(st, at):
+        return color_theme('images/messenger/hud.png'), 0.1
+    # BACK
+    def dn_back(st, at):
+        return color_theme('images/messenger/back.png'), 0.1
+    # BOXES
+    def dn_box(st, at):
+        return color_theme('images/messenger/box.png'), 0.1
+    def dn_box_hv(st, at):
+        return color_theme(color_brightness('images/messenger/box.png')), 0.1
+    def dn_box_two(st, at):
+        return color_theme('images/messenger/box_two.png'), 0.1
+    def dn_box_two_hv(st, at):
+        return color_theme(color_brightness('images/messenger/box_two.png')), 0.1
+    # BUTTONS
+    def dn_arr(st,at):
+        return color_theme('images/messenger/arrow.png'), 0.1
+    def dn_arr_hv(st,at):
+        return color_theme(color_brightness('images/messenger/arrow.png')), 0.1
+    def dn_oth(st,at):
+        return color_theme('images/messenger/other.png'), 0.1
+    def dn_oth_hv(st,at):
+        return color_theme(color_brightness('images/messenger/other.png')), 0.1
+    def dn_mgn(st,at):
+        return color_theme('images/messenger/magnifier.png'), 0.1
+    def dn_mgn_hv(st,at):
+        return color_theme(color_brightness('images/messenger/magnifier.png')), 0.1
+    # AUDIO
+    def dn_pl(st,at):
+        return color_theme('images/messenger/audio/play.png'), 0.1
+    def dn_pl_hv(st,at):
+        return color_theme(color_brightness('images/messenger/audio/play.png')), 0.1
+    def dn_st(st,at):
+        return color_theme('images/messenger/audio/stop.png'), 0.1
+    def dn_st_hv(st,at):
+        return color_theme(color_brightness('images/messenger/audio/stop.png')), 0.1
 
-image magnifier_idle = 'images/messenger/magnifier.png'
-image magnifier_hover = color_brightness('images/messenger/magnifier.png')
+    def color_theme(image):
+        return im.MatrixColor(image, im.matrix.tint(persistent.theme[0], persistent.theme[1], persistent.theme[2]))
+    
+    # SET COLOR THEME - RED, GREEN, BLUE (RGB)
+    def set_color_theme(rd,gr,bl):
+        store.persistent.theme = [rd,gr,bl]
+        renpy.restart_interaction()
 
-image box_one = 'messenger/box.png'
-image hover_box = color_brightness('images/messenger/box.png', b=.1)
-image box_two = 'messenger/box_two.png'
-image hover_box_two = color_brightness('images/messenger/box_two.png', b=.1)
+image arrow_idle = DynamicDisplayable(dn_arr)
+image arrow_hover = DynamicDisplayable(dn_arr_hv)
 
-image play_idle = 'messenger/audio/play.png'
-image play_hover = color_brightness('messenger/audio/play.png')
-image stop_idle = 'messenger/audio/stop.png'
-image stop_hover = color_brightness('messenger/audio/stop.png')
+image other_idle = DynamicDisplayable(dn_oth)
+image other_hover = DynamicDisplayable(dn_oth_hv)
+
+image magnifier_idle = DynamicDisplayable(dn_mgn)
+image magnifier_hover = DynamicDisplayable(dn_mgn_hv)
+
+image messenger_hud = DynamicDisplayable(dn_hud) 
+image messenger_back = DynamicDisplayable(dn_back) 
+image box_one = DynamicDisplayable(dn_box)
+image hover_box = DynamicDisplayable(dn_box_hv)
+image box_two = DynamicDisplayable(dn_box_two)
+image hover_box_two = DynamicDisplayable(dn_box_two_hv)
+
+image play_idle = DynamicDisplayable(dn_pl)
+image play_hover = DynamicDisplayable(dn_pl_hv)
+image stop_idle = DynamicDisplayable(dn_st)
+image stop_hover = DynamicDisplayable(dn_st_hv)
 
 image bg club = 'bg/club.png' # background from the upcoming VN 'd20: Sweet Roll Club'
 #################################################################################
