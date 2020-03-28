@@ -210,6 +210,8 @@ init python:
 
         if choices:
             freeze()
+        if not typewriter and name_input:
+            freeze()
     
     # NEW DIALOGUE SWITCH SYSTEM
     def switch_dialogue(name='sDextra', dialogue=store.messages):
@@ -432,7 +434,8 @@ screen messenger():
                                         input changed input_change_func length 20 style 'txt_base' xalign 1.0
                                     if message_time:
                                         text "{t}%s{/t}"%(hm) style 'txt_time'
-                                    key 'K_RETURN' action SetName(message, input_message)
+                                    key 'dismiss' action NullAction()
+                                    key 'K_RETURN' action SetName(message, input_message), If(not typewriter, Return())
                         else: # Usual message
                             $ hm = message.time
                             $ txt = message.what
